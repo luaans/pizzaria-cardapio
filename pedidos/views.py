@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from rest_framework import generics
+from .models import Pedido
+from .serializers import PedidoSerializer
 
-# Create your views here.
+class CriarPedidoView(generics.CreateAPIView):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
