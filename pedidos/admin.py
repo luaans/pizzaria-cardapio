@@ -1,28 +1,29 @@
-
 from django.contrib import admin
 
-from .models import Acompanhamentos, ItemPedido, Pedido, Sabores, Tamanho
+from .models import (
+    ItemPedido,
+    Pedido,
+    Sabores,
+    Tamanho,
+    CategoriaSabor,
+    PrecoPizza,
+    Bordas,
+    Bebidas
+)
 
 
 @admin.register(Tamanho)
 class TamanhoAdmin(admin.ModelAdmin):
-    list_display = ("nome", "preco", "max_sabores")
+    list_display = ("nome", "max_sabores")
     search_fields = ("nome",)
     list_filter = ("max_sabores",)
 
 
 @admin.register(Sabores)
 class SaboresAdmin(admin.ModelAdmin):
-    list_display = ("nome", "disponivel")
+    list_display = ("nome", "categoria", "disponivel")
     search_fields = ("nome",)
-    list_filter = ("disponivel",)
-
-
-@admin.register(Acompanhamentos)
-class AcompanhamentosAdmin(admin.ModelAdmin):
-    list_display = ("nome", "preco", "disponivel")
-    search_fields = ("nome",)
-    list_filter = ("disponivel",)
+    list_filter = ("categoria", "disponivel")
 
 
 @admin.register(Pedido)
@@ -42,3 +43,30 @@ class ItemPedidoAdmin(admin.ModelAdmin):
         return ", ".join([sabor.nome for sabor in obj.sabores.all()])
 
     sabores_list.short_description = "Sabores"
+
+
+@admin.register(Bordas)
+class BordasAdmin(admin.ModelAdmin):
+    list_display = ("nome", "preco", "disponivel")
+    search_fields = ("nome",)
+    list_filter = ("disponivel",)
+
+
+@admin.register(Bebidas)
+class BebidasAdmin(admin.ModelAdmin):
+    list_display = ("nome", "preco", "disponivel")
+    search_fields = ("nome",)
+    list_filter = ("disponivel",)
+
+
+@admin.register(CategoriaSabor)
+class CategoriaSaborAdmin(admin.ModelAdmin):
+    list_display = ("nome",)
+    search_fields = ("nome",)
+
+
+@admin.register(PrecoPizza)
+class PrecoPizzaAdmin(admin.ModelAdmin):
+    list_display = ("categoria", "tamanho", "preco")
+    list_filter = ("categoria", "tamanho")
+    search_fields = ("categoria__nome", "tamanho__nome")
